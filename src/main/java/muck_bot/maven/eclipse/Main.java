@@ -6,14 +6,11 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 
-
 public class Main 
 {
     public static void main( String[] args )
     {
-	
-	final String token = "ODc2NTQ4OTA5MDgwNjY2MTky.YRlryQ.GKTLEhYEgSWoqhmFGWDZ_uz3fOo";
-	final DiscordClient client = DiscordClient.create(token);
+	final DiscordClient client = DiscordClient.create(new BotToken().getToken());
 	final GatewayDiscordClient gateway = client.login().block();
 	gateway.on(MessageCreateEvent.class).subscribe(event -> {
 	    final Message message = event.getMessage();	    
