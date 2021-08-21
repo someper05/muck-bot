@@ -1,4 +1,4 @@
-package muck_bot.maven.eclipse;
+package muck_bot.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;

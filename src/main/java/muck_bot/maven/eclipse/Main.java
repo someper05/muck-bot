@@ -18,6 +18,8 @@ import discord4j.core.object.VoiceState;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.channel.VoiceChannel;
 import discord4j.voice.AudioProvider;
+import muck_bot.music.LavaPlayerAudioProvider;
+import muck_bot.music.TrackScheduler;
 
 public class Main 
 {
@@ -73,11 +75,6 @@ public class Main
     static 
     {
 	COMMANDS.put("ping", event -> event.getMessage().getChannel().block()
-	        .createMessage("Pong!").block());
-	
-	
-    }
-    
-    
-   
+	        .createMessage("Pong!").block());		
+    }  
 }
