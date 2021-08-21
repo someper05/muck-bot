@@ -28,9 +28,21 @@ public class Main
     {	
 	final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 	playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
+	
 	AudioSourceManagers.registerRemoteSources(playerManager);
 	final AudioPlayer player = playerManager.createPlayer();
 	AudioProvider provider = new LavaPlayerAudioProvider(player);
+	
+	final TrackScheduler scheduler = new TrackScheduler(player);
+	
+	final DiscordClient client = DiscordClient.create(new BotToken().getToken());
+	final GatewayDiscordClient gateway = client.login().block();
+	
+	COMMANDS.put("ping", event -> event.getMessage().getChannel().block()
+	        .createMessage("Pong!").block());	
+	
+	COMMANDS.put("shutdown", event -> event.getMessage().getChannel().block()
+	        .getClient().logout().block());
 	
 	COMMANDS.put("join", event -> {
 	    final Member member = event.getMember().orElse(null);
@@ -47,16 +59,16 @@ public class Main
 	        }
 	    }
 	});
-	
-	final TrackScheduler scheduler = new TrackScheduler(player);
+
 	COMMANDS.put("play", event -> {
 	    final String content = event.getMessage().getContent();
 	    final List<String> command = Arrays.asList(content.split(" "));
 	    playerManager.loadItem(command.get(1), scheduler);
 	});
 	
-	final DiscordClient client = DiscordClient.create(new BotToken().getToken());
-	final GatewayDiscordClient gateway = client.login().block();
+	// TODO add pause, resume and current song command
+	// TODO add queue
+	
 	gateway.getEventDispatcher().on(MessageCreateEvent.class)
 	    .subscribe(event -> {
 	        final String content = event.getMessage().getContent(); 
@@ -71,14 +83,4 @@ public class Main
 	    });
 	gateway.onDisconnect().block();
     }
-    
-    static 
-    {
-	COMMANDS.put("ping", event -> event.getMessage().getChannel().block()
-	        .createMessage("Pong!").block());	
-	
-	COMMANDS.put("shutdown", event -> event.getMessage().getChannel().block()
-	        .getClient().logout().block());
-    }   
-    
 }
