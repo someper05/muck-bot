@@ -75,6 +75,10 @@ public class Main
     static 
     {
 	COMMANDS.put("ping", event -> event.getMessage().getChannel().block()
-	        .createMessage("Pong!").block());		
-    }  
+	        .createMessage("Pong!").block());	
+	
+	COMMANDS.put("shutdown", event -> event.getMessage().getChannel().block()
+	        .getClient().logout().block());
+    }   
+    
 }
