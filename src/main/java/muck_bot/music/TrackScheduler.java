@@ -21,10 +21,25 @@ public final class TrackScheduler extends AudioEventAdapter implements AudioLoad
 	return player;
     }
     
+    public void pauseMusic()
+    {
+	player.setPaused(true);
+    }
+    
+    public void resumeMusic()
+    {
+	player.setPaused(false);
+    }
+    
+    public synchronized String currentSong()
+    {
+    	return player.getPlayingTrack().getInfo().title + " by " + player.getPlayingTrack().getInfo().author;
+    }
+    
     @Override
     public void trackLoaded(final AudioTrack track)
     {
-	player.playTrack(track);;
+	player.playTrack(track);
     }
 
     @Override
