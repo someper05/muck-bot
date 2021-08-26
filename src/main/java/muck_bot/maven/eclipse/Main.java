@@ -66,8 +66,16 @@ public class Main
 	    playerManager.loadItem(command.get(1), scheduler);
 	});
 	
-	// TODO add pause, resume and current song command
-	// TODO add queue
+	COMMANDS.put("pause", event -> {
+	    scheduler.pauseMusic();
+	});
+	
+	COMMANDS.put("resume", event -> {
+	    scheduler.resumeMusic();
+	});
+	
+	COMMANDS.put("song", event -> event.getMessage().getChannel().block()
+		.createMessage(scheduler.currentSong()).block());
 	
 	gateway.getEventDispatcher().on(MessageCreateEvent.class)
 	    .subscribe(event -> {
